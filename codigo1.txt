@@ -1,0 +1,22 @@
+function update( event ) {}
+
+const axesHelper = new THREE.AxesHelper(5); // Cria um guia  para os eixos cartesianos
+scene.add(axesHelper); //Adiciona os eixos na cena 
+
+//var vn = [ x,y,z ]
+var v = [];
+var v0 = [-1.0,1.0,1.0];
+var v1 = [1.0,-1.0,1.0];
+var v2 = [1.0,1.0,1.0];
+
+const geometry = new THREE.BufferGeometry();
+const vertices = new Float32Array(v.concat(
+	v0, v1, v2
+));
+
+geometry.setAttribute('position', new THREE.BufferAttribute(vertices,3));
+
+const material = new THREE.MeshBasicMaterial( { color: 0xFF0000} );
+const mesh  = new THREE.Mesh(geometry, material);
+
+scene.add(mesh);

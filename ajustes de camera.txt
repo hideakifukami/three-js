@@ -1,0 +1,39 @@
+function update( event ) {}
+
+const axesHelper = new THREE.AxesHelper(5); // Cria um guia  para os eixos cartesianos
+scene.add(axesHelper); //Adiciona os eixos na cena 
+const gridHelper = new THREE.GridHelper(10,10);
+scene.add(gridHelper)
+gridHelper.rotation.x = Math.PI/2;
+
+camera.position.x = 0;
+camera.position.y = 0;
+camera.position.z = 5;
+camera.rotation.x = 0;
+camera.rotation.y = 0;
+camera.rotation.z = 0;
+
+
+//var vn = [ x,y,z ]
+var v = [];
+var v0 = [-1.0,1.0,1.0];
+var v1 = [1.0,-1.0,1.0];
+var v2 = [1.0,1.0,1.0];
+var v3 = [-1.0,-1.0,1.0];
+var v4 = [-1.0,1.0,-1.0]
+
+const geometry = new THREE.BufferGeometry();
+const vertices = new Float32Array(v.concat(
+	v0, v1, v2,
+	v0, v3, v1,
+	v4, v4, v0
+));
+
+geometry.setAttribute('position', new THREE.BufferAttribute(vertices,3));
+
+const material = new THREE.MeshBasicMaterial( { color: 0xFF0000} );
+const mesh  = new THREE.Mesh(geometry, material);
+
+scene.add(mesh);
+
+mesh.material.wireframe = true;

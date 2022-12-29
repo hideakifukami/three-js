@@ -1,0 +1,88 @@
+<html>
+
+<head>
+	<title>Aula05</title>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%
+		}
+	</style>
+</head>
+
+<body>
+	<script src="js/three.js"></script>
+	<script src="js/controls/OrbitControls.js"></script>
+	<script>
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+		const color = 0xFFFFFF;
+		const intensity = 0.3;
+		const light = new THREE.DirectionalLight(color, intensity);
+		light.position.set(0, 10, 0);
+		light.target.position.set(-5, 0, 0);
+		scene.add(light);
+		scene.add(light.target);
+
+		spotLight = new THREE.SpotLight( 0xffffff, 10 );
+				spotLight.position.set( 3, 4, 0 );
+				spotLight.intensity = 1;
+				spotLight.angle = Math.PI / 8;
+				spotLight.penumbra = 0.2;
+				spotLight.decay = 2;
+				spotLight.distance = 100;
+				scene.add( spotLight );
+
+
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
+
+		var controls = new THREE.OrbitControls(camera, renderer.domElement);
+		//--------
+
+		const gridHelper = new THREE.GridHelper(10, 10);
+		scene.add(gridHelper);
+
+		const plane = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.MeshPhongMaterial({ color: '#CA8' }));
+		plane.rotation.x = Math.PI * -.5;
+		scene.add(plane);
+
+		const axesHelper = new THREE.AxesHelper(5); // Cria um guia para os eixos cartesianos
+		scene.add(axesHelper); 						// Adiciona os eixos na cena
+
+		// Objetos da cena
+		const poste = new THREE.Mesh(new THREE.BoxGeometry(0.1, 3, 0.1), new THREE.MeshNormalMaterial);
+		const lamp = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.5, 8), new THREE.MeshNormalMaterial);
+		poste.position.set(3, 1.5, 0); lamp.position.set(2.8, 2.9); lamp.rotateZ(-45 * Math.PI / 180);
+		const sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 16), new THREE.MeshLambertMaterial({ color: 0xffffff }));
+		sphere.position.y = 0.8;
+		scene.add(poste, lamp, sphere);
+
+		const poste1 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 3, 0.1), new THREE.MeshNormalMaterial);
+		const lamp1 = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.5, 8), new THREE.MeshNormalMaterial);
+		poste1.position.set(3, 1.5, 0); lamp1.position.set(2.8, 2.9); lamp1.rotateZ(-45 * Math.PI / 180);
+
+		//camera.position.x = 4;
+		camera.position.y = 4;
+		camera.position.z = 4;
+
+		//---------
+		var animate = function () {
+			requestAnimationFrame(animate);
+
+			controls.update();
+
+			renderer.render(scene, camera);
+		};
+		animate();
+	</script>
+</body>
+
+</html>
